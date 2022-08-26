@@ -118,7 +118,7 @@ in rec {
         # single-user and multi-user nix. Set $HOME to a read-only
         # directory to fix it
         export HOME=$(mktemp -d)
-        chmod a-w "$HOME"
+        chmod 777 "$HOME"
 
         # do not run the toplevel lifecycle scripts, we only do dependencies
         cp ${toFile "package.json" (builtins.toJSON (info // { scripts = { }; }))} ./package.json
