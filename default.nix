@@ -118,7 +118,7 @@ in rec {
         # single-user and multi-user nix. Set $HOME to a read-only
         # directory to fix it
         export HOME=$(mktemp -d)
-        chmod 777 "$HOME"
+        chmod -R 777 "$HOME"
 
         # do not run the toplevel lifecycle scripts, we only do dependencies
         cp ${toFile "package.json" (builtins.toJSON (info // { scripts = { }; }))} ./package.json
@@ -130,6 +130,7 @@ in rec {
         addToSearchPath NODE_PATH ${npmModules} # ssri
         node ${./mknpmcache.js} ${cacheInput "npm-cache-input.json" lock}
 
+        chmod -R 777 "$HOME"
         echo 'building node_modules'
         npm ci
         patchShebangs ./node_modules/
